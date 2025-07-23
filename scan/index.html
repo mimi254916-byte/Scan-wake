@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Web Alarmy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+  </style>
+</head>
+<body>
+  <h1>Alarmy on Web</h1>
+  <input type="time" id="alarmTime">
+  <button onclick="setAlarm()">ตั้งปลุก</button>
+
+  <audio id="alarmSound" src="alarm.mp3" preload="auto"></audio>
+
+  <script>
+    let alarmTimeout;
+
+    function setAlarm() {
+      const timeInput = document.getElementById('alarmTime').value;
+      const now = new Date();
+      const alarmTime = new Date(now.toDateString() + ' ' + timeInput);
+      const delay = alarmTime.getTime() - now.getTime();
+
+      if (delay > 0) {
+        clearTimeout(alarmTimeout);
+        alarmTimeout = setTimeout(() => {
+          document.getElementById('alarmSound').play();
+          alert("ตื่นได้แล้ว! แก้โจทย์ก่อนจะหยุดเสียงนะ!");
+          // เพิ่มระบบ "ปิดปลุกหลังทำภารกิจ" ตรงนี้
+        }, delay);
+        alert("ตั้งปลุกเรียบร้อยในอีก " + Math.round(delay / 1000 / 60) + " นาที");
+      } else {
+        alert("กรุณาเลือกเวลาในอนาคต");
+      }
+    }
+  </script>
+</body>
+</html>
